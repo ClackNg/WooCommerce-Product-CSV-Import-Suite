@@ -389,20 +389,6 @@ if ( is_woocommerce_active() ) {
 					if ( file_exists( $class_wp_importer ) ) require $class_wp_importer;
 				}
 
-				// includes
-				require dirname( __FILE__ ) . '/classes/class-wc-product-import.php';
-				require dirname( __FILE__ ) . '/classes/class-wc-csv-parser.php';
-				require dirname( __FILE__ ) . '/classes/class-wc-csv-log.php';
-
-				// Dispatch
-				global $WC_CSV_Product_Import;
-
-				$WC_CSV_Product_Import = new WC_CSV_Product_Import();
-
-				$WC_CSV_Product_Import->dispatch();
-
-			}
-
 			/**
 			 * Variation Importer Tool
 			 */
@@ -705,17 +691,6 @@ if ( is_woocommerce_active() ) {
 							$terms = wp_get_post_terms( $product->ID, $taxonomy->name, array("fields" => "names") );
 
 							$row[] = $this->format_data( implode( '|', $terms ) );
-						}
-					}
-
-					// Export meta data
-					if ( ! $export_columns || in_array( 'meta', $export_columns ) ) {
-						foreach ( $found_product_meta as $product_meta ) {
-							if ( isset( $product->meta->$product_meta ) ) {
-								$row[] = $this->format_data( $product->meta->$product_meta );
-							} else {
-								$row[] = '';
-							}
 						}
 					}
 
